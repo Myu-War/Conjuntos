@@ -1,6 +1,8 @@
 
 package conjuntos;
 
+import java.util.Iterator;
+
 public interface SetADT <T extends Comparable>{
     public void add(T elem);
     public T removeRandom();
@@ -10,7 +12,7 @@ public interface SetADT <T extends Comparable>{
     public boolean equals(SetADT<T> set);
     public boolean isEmpty();
     public int size();
-    public Itetaror <T> iterator();
+    public Iterator<T> iterator();
     public String toString();
     public SetADT <T> intersect(SetADT<T> set);
           
