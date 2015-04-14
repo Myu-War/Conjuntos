@@ -91,18 +91,13 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>,Iterable<T>{
     @Override
     public SetADT union(SetADT set) {
         SetADT un=new Conjuntos();
-        ArrayList<T> aux = null;
-        int j;
+        Iterator<T> it=set.iterator();    
         
         for(int i=0;i<cont;i++){
             un.add(contenido[i]);
         }
-        for(j=0;j<set.size();j++){
-            aux.add((T) set.removeRandom());
-            un.add(aux.get(j));
-        }
-        for(int h=0;h<j;h++){
-            set.add(aux.get(h));
+        for(int j=0;j<set.size();j++){
+           un.add(it.next());
         }
         
         return un;
@@ -157,7 +152,7 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>,Iterable<T>{
         return aux;
     }
 
-    public class IteratorArray implements Iterator<T> {
+    public class IteratorArray<T> implements Iterator<T> {
         private T[] cosas;
         private int pos;
         
