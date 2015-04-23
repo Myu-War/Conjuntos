@@ -19,7 +19,7 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
 
     @Override
     public void add(T elem) {
-        if(elem!=null){
+        if (elem != null) {
             if (!contains(elem)) {
                 if (cont == contenido.length) {
                     expandCapacity();
@@ -57,7 +57,7 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
                 }
                 corredor++;
             }
-            if (corredor >= cont) {
+            if (corredor == cont) {
                 res = true;
             }
         }
@@ -81,11 +81,11 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
 
         if (contains(elem)) {
             while (corredor < cont && !contenido[corredor].equals(elem)) {
-                cont++;
+                corredor++;
             }
             aux = contenido[corredor];
-            contenido[corredor] = contenido[cont-1];
-            contenido[cont] = null;
+            contenido[corredor] = contenido[cont - 1];
+            contenido[cont - 1] = null;
             cont--;
         }
 
@@ -106,16 +106,26 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
 
         return un;
     }
-    
-    public SetADT diferencia(SetADT set){
+
+    public SetADT diferencia(SetADT<T> set) {
         SetADT dif = new Conjuntos();
         Iterator<T> it = set.iterator();
-        
-        for(int i=0; i<cont; i++){
-            if(!set.contains(contenido[i])){
-                dif.add(contenido[i]);
+        T aux = null;
+
+        if(!equals(set)){
+            while(it.hasNext()){
+                dif.add(it.next());
+            }
+            for(int i=0; i<cont; i++){
+                if(dif.contains(contenido[i])){
+                    dif.remove(contenido[i]);
+                }
+                else{
+                    dif.add(contenido[i]);
+                }
             }
         }
+        
         return dif;
     }
 
@@ -159,17 +169,16 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
         T aux = null;
         Random rnd = new Random();
 
-        if(cont>0){
+        if (cont > 0) {
             borrado = rnd.nextInt(cont);
             aux = contenido[borrado];
-            contenido[borrado] = contenido[cont-1];
-            contenido[cont-1] = null;
+            contenido[borrado] = contenido[cont - 1];
+            contenido[cont - 1] = null;
             cont--;
+        } else {
+            aux = (T) "El conjunto esta vacio";
         }
-        else{
-            aux=(T) "El conjunto esta vacio";
-        }
-        
+
         return aux;
     }
 
@@ -180,6 +189,7 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
     }
 
     public class IteratorArray<T> implements Iterator<T> {
+
         private T[] cosas;
         private int pos;
 
@@ -218,18 +228,12 @@ public class Conjuntos<T extends Comparable> implements SetADT<T>, Iterable<T> {
         c.add(3);
         c.add(6);
         c.imprimeConjunto();
-        System.out.println(c.contains("S"));
-        q.remove(3);
+        System.out.println(c.contains(3));
         q.add(6);
         q.add(2);
         q.imprimeConjunto();
         System.out.println(c.equals(q));
-        aux=(Conjuntos) c.diferencia(q);
+        aux = (Conjuntos) c.diferencia(q);
         aux.imprimeConjunto();
-        System.out.println(c.isEmpty());
-        System.out.println(c.removeRandom());
-        System.out.println(c.removeRandom());
-        System.out.println(c.removeRandom());
-        System.out.println(q.isEmpty());   
     }
 }
